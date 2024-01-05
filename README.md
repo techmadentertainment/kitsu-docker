@@ -1,64 +1,70 @@
-# Kitsu Docker
+# Kitsu Docker Compose
 
-Docker container for [Kitsu](https://kitsu.cg-wire.com/).
+This is a Docker Compose version of [Kitsu Docker](https://github.com/cgwire/kitsu-docker).
 
-If you like the project, please add a star to the [Kitsu repository](https://github.com/cgwire/kitsu).
+This Compose will use e separate container for the PostregDB
 
-It is not recommended to use this image in production. It is intended for Kitsu
-testing.
 
-For this purpose, to simplify email testing, we include an email catch-all
-application to intercept all emails sent by Kitsu. These can be viewed in an
-included webmail.
+### Installation
 
-[![Build badge](https://app.travis-ci.com/cgwire/cgwire.svg?branch=master)](https://app.travis-ci.com/cgwire/cgwire)
+Some ENV variabile should be provided in order to work. Best apporach is to rename the `sample.env` to `.env` and fill the variabiles  
+
+
+```bash
+$ docker compose build
+```
+
+In order to init the the ZOU DB you should run the following command only once:
+
+
+```bash
+$ docker compose run zou bash /opt/zou/init_zou.sh
+```
+
+And finally to run Kitsu:
+
+```bash
+$ docker compose up --detach
+```
 
 ### Usage
 
-```bash
-$ docker build -t cgwire/cgwire . # or sudo docker pull cgwire/cgwire
-$ docker run --init -ti --rm -p 80:80 -p 1080:1080 --name cgwire cgwire/cgwire
-```
+URL:
 
-In order to enable data persistence, use a named volume for the database and thumbnails:
+Kitsu: [http://127.0.0.1:5080/](http://127.0.0.1:5080/)
 
-```bash
-$ docker run --init -ti --rm -p 80:80 -p 1080:1080 --name cgwire -v zou-storage:/var/lib/postgresql -v zou-storage:/opt/zou/previews cgwire/cgwire
-```
-
-To run the image as a daemon, add the `-d` flag:
-
-```bash
-$ docker run --init -d --rm -p 80:80 -p 1080:1080 --name cgwire cgwire/cgwire
-```
+Internal webmail: [http://127.0.0.1:1080/](http://127.0.0.1:1080/)
 
 Kitsu credentials:
 
 * login: admin@example.com
 * password: mysecretpassword
 
-URL:
-
-Kitsu: [http://127.0.0.1:80/](http://127.0.0.1:80/)
-
-Internal webmail: [http://127.0.0.1:1080/](http://127.0.0.1:1080/)
-
 ### Update
 
-After updating the image, you have to update the database schema. For that run:
+In order to upgrade to the latest version of Kitsu andZoe,you need to set the Tag in the Dockerfileand then rebuild the image uzsing the command:
 
 ```bash
-$ docker exec -ti cgwire sh -c "/opt/zou/env/bin/zou upgrade-db"
+$ docker compose build --no-cache
 ```
 
-### Docker Compose
+!!The DB should NOT be init again, so you just have to bring up the docker compose
 
-Thanks to our community, for Docker Compose, [an implementation by Mathieu Bouzard](https://gitlab.com/mathbou/docker-cgwire)
-is available
+```bash
+$ docker compose up --detach
+```
+
+finally you need to upgrade the DB usign the command:
+
+```bash
+$ docker exec -ti <zou-container-name> sh -c "/opt/zou/env/bin/zou upgrade-db"
+```
+
+where `zou-container-name` is the nameof the zou cointainer (probably: *kitsu-docker-zou-1*)
 
 ### About authors
 
-This Dockerfile is written by CGWire, a company based in France. We help 
+The Dockerfile is written by CGWire, a company based in France. We help 
 animation and VFX studios to collaborate better through efficient tooling.
 
 More than 100 studios around the world use Kitsu for their projects.
@@ -66,3 +72,5 @@ More than 100 studios around the world use Kitsu for their projects.
 Visit [cg-wire.com](https://cg-wire.com) for more information.
 
 [![CGWire Logo](https://zou.cg-wire.com/cgwire.png)](https://cgwire.com)
+
+Docker Compose file is written by [MAD Entertainment](https://www.madentertainment.it), a studio based in Napoli. We help people having fun.
