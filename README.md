@@ -2,7 +2,7 @@
 
 This is a Docker Compose version of [Kitsu Docker](https://github.com/cgwire/kitsu-docker).
 
-This Compose will use e separate container for the PostregDB in order to be installed on Synology DSM 7.2
+This Compose will use e separate container for the PostgresDB in order to be installed on Synology DSM 7.2
 
 
 ### First Installation
