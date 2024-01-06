@@ -2,19 +2,17 @@
 
 This is a Docker Compose version of [Kitsu Docker](https://github.com/cgwire/kitsu-docker).
 
-This Compose will use e separate container for the PostregDB
+This Compose will use e separate container for the PostregDB in order to be installed on Synology DSM 7.2
 
 
-### Installation
-
-Some ENV variabile should be provided in order to work. Best apporach is to rename the `sample.env` to `.env` and fill the variabiles  
-
+### First Installation
+Some ENV variabile should be provided in order to work. Best apporach is to rename the `sample.env` to `.env` and fill the variabiles.  
 
 ```bash
 $ docker compose build
 ```
 
-In order to init the the ZOU DB you should run the following command only once:
+In order to init the the ZOU DB you should run the following command:
 
 
 ```bash
@@ -38,17 +36,17 @@ Internal webmail: [http://127.0.0.1:1080/](http://127.0.0.1:1080/)
 Kitsu credentials:
 
 * login: admin@example.com
-* password: mysecretpassword
+* password: mysecretpassword (or whatever you put in the `.env` file)
 
 ### Update
 
-In order to upgrade to the latest version of Kitsu andZoe,you need to set the Tag in the Dockerfileand then rebuild the image uzsing the command:
+In order to upgrade to the latest version of Kitsu and Zoe, you need to set the Tag in the `Dockerfile` and then rebuild the image using the command:
 
 ```bash
 $ docker compose build --no-cache
 ```
 
-!!The DB should NOT be init again, so you just have to bring up the docker compose
+**ATTENTION!** The DB should NOT be init again, so after rebuilding the image you just have to bring up the docker compose
 
 ```bash
 $ docker compose up --detach
@@ -60,7 +58,7 @@ finally you need to upgrade the DB usign the command:
 $ docker exec -ti <zou-container-name> sh -c "/opt/zou/env/bin/zou upgrade-db"
 ```
 
-where `zou-container-name` is the nameof the zou cointainer (probably: *kitsu-docker-zou-1*)
+where `zou-container-name` is the name of the zou cointainer (something like: *kitsu-docker-zou-1*)
 
 ### About authors
 
