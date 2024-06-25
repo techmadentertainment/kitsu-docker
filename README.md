@@ -7,6 +7,7 @@ This Compose will use e separate container for the PostgresDB in order to be ins
 
 ### First Installation
 Some ENV variabile should be provided in order to work. Best apporach is to rename the `sample.env` to `.env` and fill the variabiles.  
+Then you should specify the version of Zou and Kitsu that you want to install. This can be done chaging the `Dockerfile`. According to the version of Kitus that is defined, you should update the image version of `docker-kitsu` in `compose.yaml`
 
 ```bash
 $ docker compose build

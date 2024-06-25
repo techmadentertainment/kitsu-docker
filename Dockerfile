@@ -3,9 +3,9 @@ FROM ubuntu:focal
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PG_VERSION=12
 # https://github.com/cgwire/zou/tags
-ARG ZOU_VERSION=0.17.63
+ARG ZOU_VERSION=0.19.43
 # https://github.com/cgwire/kitsu/tags
-ARG KITSU_VERSION=0.17.54
+ARG KITSU_VERSION=0.19.44
 
 USER root
 
