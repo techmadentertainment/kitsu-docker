@@ -1,5 +1,6 @@
 services:
   zou:
+    image: docker-kitsu:0.19.44
     build: .
     ports:
       - "5080:80"
