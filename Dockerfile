@@ -1,11 +1,11 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PG_VERSION=12
 # https://github.com/cgwire/zou/tags
-ARG ZOU_VERSION=0.19.43
+ARG ZOU_VERSION=0.19.56
 # https://github.com/cgwire/kitsu/tags
-ARG KITSU_VERSION=0.19.44
+ARG KITSU_VERSION=0.19.65
 
 USER root
 
@@ -46,8 +46,8 @@ RUN wget -q -O /tmp/kitsu.tgz https://github.com/cgwire/kitsu/releases/download/
 # setup.py will read requirements.txt in the current directory
 WORKDIR /opt/zou/zou
 RUN python3 -m venv /opt/zou/env && \
-    /opt/zou/env/bin/pip install --upgrade pip setuptools wheel && \
-    /opt/zou/env/bin/pip install zou==${ZOU_VERSION} && \
+    /opt/zou/env/bin/pip install --no-cache-dir  --upgrade pip setuptools wheel && \
+    /opt/zou/env/bin/pip install --no-cache-dir  zou==${ZOU_VERSION} && \
     rm -rf /root/.cache/pip/
 
 WORKDIR /opt/zou
@@ -67,6 +67,8 @@ RUN chmod +x /opt/zou/init_zou.sh /opt/zou/start_zou.sh
 
 # Init of zou will be done afterwards
 #RUN echo Initialising Zou... && /opt/zou/init_zou.sh
+
+RUN   echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
 
 EXPOSE 80
 EXPOSE 1080

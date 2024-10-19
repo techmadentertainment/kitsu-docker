@@ -56,10 +56,10 @@ $ docker compose up --detach
 finally you need to upgrade the DB usign the command:
 
 ```bash
-$ docker exec -ti <zou-container-name> sh -c "/opt/zou/env/bin/zou upgrade-db"
+$ docker exec -ti kitsu-docker-zou-1 sh -c "/opt/zou/env/bin/zou upgrade-db"
 ```
 
-where `zou-container-name` is the name of the zou cointainer (something like: *kitsu-docker-zou-1*)
+where `kitsu-docker-zou-1` is the name of the zou cointainer
 
 ### About authors
 
